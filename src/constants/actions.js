@@ -1,0 +1,2 @@
+export const TOGGLE_INFOWINDOW = "TOGGLE_INFOWINDOW";
+export const ADD_PLACE = "ADD_PLACE";

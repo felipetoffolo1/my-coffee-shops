@@ -2,3 +2,14 @@
 @import "./Settings";
 @import "~foundation-sites/scss/foundation";
 @include foundation-everything;
+
+.map {
+  height: 100%;
+}
+
+html,
+body,
+#root,
+.App {
+  height: 100%;
+}
