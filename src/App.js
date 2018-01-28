@@ -2,11 +2,22 @@ import React, { Component } from "react";
 import "./App.scss";
 import Sidebar from "./components/Sidebar";
 import Map from "./components/Map";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { toggleInfoWindow, addPlace } from "./actions/markerActions";
+import { toggleInfoWindow, addPlace, getPlaces } from "./actions/markerActions";
+import { requestLocation } from "./actions/locationActions";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    navigator.geolocation.getCurrentPosition(location => {
+      this.props.requestLocation(location.coords);
+    });
+  }
+
+  componentDidMount() {
+    this.props.getPlaces();
+  }
+
   render() {
     var mapsData = {
       googleMapURL:
@@ -30,6 +41,7 @@ class App extends Component {
             mapElement={<div style={{ height: `100%` }} />}
             defaultCenter={this.props.currentLocation}
             places={this.props.places}
+            onMarkerClick={this.props.onMarkerClick}
           />
         </div>
       </div>
@@ -52,6 +64,12 @@ const mapDispatchToProps = dispatch => {
     },
     onPlacesChanged: places => {
       dispatch(addPlace(places));
+    },
+    requestLocation: location => {
+      dispatch(requestLocation(location));
+    },
+    getPlaces: () => {
+      dispatch(getPlaces());
     }
   };
 };

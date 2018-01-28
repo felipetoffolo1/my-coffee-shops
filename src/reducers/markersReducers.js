@@ -1,15 +1,8 @@
-import { TOGGLE_INFOWINDOW, ADD_PLACE } from "../constants/actions";
+import { TOGGLE_INFOWINDOW, SET_PLACE } from "../constants/actions";
 
 export default (
   state = {
-    places: [
-      {
-        title: "Ernesto Café",
-        location: { lat: -15.8306611, lng: -47.9264053 },
-        googleData: {},
-        showInfo: false
-      }
-    ]
+    places: []
   },
   action
 ) => {
@@ -25,18 +18,8 @@ export default (
         return place;
       });
       return Object.assign({}, state, { places: newPlaces });
-    case ADD_PLACE:
-      const placesToAdd = action.places.map(place => {
-        let newPlace = {
-          title: place.name,
-          location: place.geometry.location,
-          showInfo: false,
-          googleData: place
-        };
-        return newPlace;
-      });
-      const mergedPlaces = state.places.concat(placesToAdd);
-      return Object.assign({}, state, { places: mergedPlaces });
+    case SET_PLACE:
+      return Object.assign({}, state, { places: action.places });
     default:
       return state;
   }

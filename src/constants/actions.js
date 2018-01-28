@@ -1,2 +1,7 @@
 export const TOGGLE_INFOWINDOW = "TOGGLE_INFOWINDOW";
 export const ADD_PLACE = "ADD_PLACE";
+export const SET_PLACE = "SET_PLACE";
+export const GET_PLACES = "GET_PLACES";
+
+export const REQUEST_LOCATION = "REQUEST_LOCATION";
+export const RECEIVE_LOCATION = "RECEIVE_LOCATION";

@@ -1,63 +1,53 @@
-import { select, call, put, takeEvery, fork, all } from "redux-saga/effects";
+import { put, takeEvery, fork, all, select, call } from "redux-saga/effects";
+import {
+  REQUEST_LOCATION,
+  RECEIVE_LOCATION,
+  ADD_PLACE,
+  SET_PLACE,
+  GET_PLACES
+} from "../constants/actions";
+import { getSavedPlaces, putPlaces } from "../api/Firebase";
 
-// const requestBooks = function*(action) {
-//   try {
-//     yield put({ type: SET_BOOK_QUERY, query: action.query });
+export const requestLocation = function*(action) {
+  const location = {
+    lat: action.location.latitude,
+    lng: action.location.longitude
+  };
+  yield put({ type: RECEIVE_LOCATION, location: location });
+};
+export const setPlace = function*(action) {
+  const state = yield select();
+  const places = state.markers.places;
+  const placesToAdd = action.places.map(place => {
+    let newPlace = {
+      id: place.id,
+      title: place.name,
+      location: {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
+      },
+      showInfo: false
+      // googleData: place
+    };
+    return newPlace;
+  });
+  const mergedPlaces = places.concat(placesToAdd);
+  yield call(putPlaces, placesToAdd);
+  yield put({ type: SET_PLACE, places: mergedPlaces });
+};
+export const getPlaces = function*(action) {
+  const places = yield call(getSavedPlaces);
+  yield put({ type: SET_PLACE, places: places.val() });
+};
 
-//     const books = yield call(BooksAPI.search, action.query);
-//     if (books.error) {
-//       yield put({ type: FAILED_BOOKS });
-//     } else {
-//       //  Merge with books on bookshelf
-//       const state = yield select();
-//       const bookShelf = state.bookShelf;
-//       const mergedBooks = books.map(book => {
-//         let foundBook = bookShelf.items.find(
-//           bookOnShelf => bookOnShelf.id === book.id
-//         );
-//         return foundBook ? foundBook : book;
-//       });
-//       yield put({ type: RECEIVE_BOOKS, books: mergedBooks });
-//     }
-//   } catch (e) {
-//     yield put({ type: FAILED_BOOKS });
-//   }
-// };
+export function* watchLocationRequests() {
+  yield takeEvery(REQUEST_LOCATION, requestLocation);
+}
+export function* watchMarkersRequests() {
+  yield takeEvery(ADD_PLACE, setPlace);
+  yield takeEvery(GET_PLACES, getPlaces);
+}
 
-// const requestBookshelf = function*() {
-//   try {
-//     const bookshelf = yield call(BooksAPI.getAll);
-//     bookshelf.error
-//       ? yield put({ type: FAILED_BOOKSHELF })
-//       : yield put({ type: RECEIVE_BOOKSHELF, bookShelf: bookshelf });
-//   } catch (e) {
-//     yield put({ type: FAILED_BOOKSHELF });
-//   }
-// };
-
-// const changeBookshelf = function*(action) {
-//   try {
-//     const bookshelf = yield call(BooksAPI.update, action.book, action.shelf);
-//     bookshelf.error
-//       ? yield put({ type: FAILED_BOOKSHELF })
-//       : yield put({
-//           type: CHANGE_BOOKSHELF,
-//           book: action.book,
-//           shelf: action.shelf
-//         });
-//   } catch (e) {
-//     yield put({ type: FAILED_BOOKSHELF });
-//   }
-// };
-
-// export function* watchRequestBooks() {
-//   yield takeEvery(REQUEST_BOOKS, requestBooks);
-// }
-// export function* watchRequestBookshelf() {
-//   yield takeEvery(REQUEST_BOOKSHELF, requestBookshelf);
-//   yield takeEvery(CHANGE_BOOKSHELF, changeBookshelf);
-// }
-
-// export default function* root() {
-//   yield all([fork(watchRequestBooks), fork(watchRequestBookshelf)]);
-// }
+export default function* root() {
+  yield all([fork(watchLocationRequests), fork(watchMarkersRequests)]);
+}
