@@ -1,4 +1,4 @@
-import { RECEIVE_LOCATION } from "../constants/actions";
+import { RECEIVE_LOCATION, SET_BOUNDS } from "../constants/actions";
 
 export default (
   state = { current: { lat: -19.721751, lng: -48.0073978 } },
@@ -10,6 +10,8 @@ export default (
      */
     case RECEIVE_LOCATION:
       return Object.assign({}, state, { current: action.location });
+    case SET_BOUNDS:
+      return Object.assign({}, state, { bounds: action.bounds });
     default:
       return state;
   }

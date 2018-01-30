@@ -1,20 +1,16 @@
 import React from "react";
 import { Marker, InfoWindow } from "react-google-maps";
+import CustomInfoWindow from "./CustomInfoWindow";
 
-const Map = props => {
-  console.log(props.place);
+const CustomMarker = props => {
   return (
     <Marker
       onClick={() => props.onMarkerClick(props.place)}
       position={props.place.location}
     >
-      {props.place.showInfo && (
-        <InfoWindow>
-          <h1>{props.place.title}</h1>
-        </InfoWindow>
-      )}
+      {props.place.showInfo && <CustomInfoWindow place={props.place} />}
     </Marker>
   );
 };
 
-export default Map;
+export default CustomMarker;

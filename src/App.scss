@@ -10,6 +10,18 @@
 html,
 body,
 #root,
-.App {
+.app {
   height: 100%;
+}
+.app {
+  display: flex;
+  flex-direction: column;
+
+  .nav-bar {
+    flex-shrink: 0;
+    height: 35px;
+  }
+  .main-container {
+    flex-grow: 1;
+  }
 }

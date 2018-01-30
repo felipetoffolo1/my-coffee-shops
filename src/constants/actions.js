@@ -5,3 +5,7 @@ export const GET_PLACES = "GET_PLACES";
 
 export const REQUEST_LOCATION = "REQUEST_LOCATION";
 export const RECEIVE_LOCATION = "RECEIVE_LOCATION";
+export const GET_BOUNDS = "GET_BOUNDS";
+export const SET_BOUNDS = "SET_BOUNDS";
+
+export const TOGGLE_MENU = "TOGGLE_MENU";
