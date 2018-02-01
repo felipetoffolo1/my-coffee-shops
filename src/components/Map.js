@@ -46,8 +46,10 @@ class CustomMap extends Component {
         onMapMounted={this.onMapMounted}
         onBoundsChanged={this.onBoundsChanged}
         loadingElement={<div style={{ height: "100vh" }} />}
-        containerElement={<div style={{ height: "100vh" }} />}
-        mapElement={<div style={{ height: "100vh" }} />}
+        containerElement={
+          <div className="flex-container" style={{ height: "100%" }} />
+        }
+        mapElement={<div className="flex-child-auto" />}
       />
     );
   }

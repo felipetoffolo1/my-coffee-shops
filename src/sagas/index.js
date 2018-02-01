@@ -25,27 +25,32 @@ export const setPlace = function*(action) {
   const name = place.name;
   const fsAvenues = yield call(getAvenue, `${lat},${lng}`, name);
   const fsAvenue = fsAvenues.response.groups[0].items[0];
-  console.log(fsAvenue);
   let newPlace = {
     id: place.id,
     title: place.name,
+    address: place.formatted_address,
     location: {
       lat: lat,
       lng: lng
     },
     rating: {
       foursquare: {
-        value: fsAvenue.venue.rating,
-        color: fsAvenue.venue.ratingColor
+        value: fsAvenue.venue.rating ? fsAvenue.venue.rating : ""
       },
       google: {
         value: place.rating
       }
     },
-    website: place.website,
+    website: place.website ? place.website : "",
     price: fsAvenue.venue.price,
     contact: fsAvenue.venue.contact,
-    showInfo: false
+    showInfo: false,
+    photo: {
+      url: place.photos[0].getUrl({ maxWidth: 500, maxHeight: 500 }),
+      width: place.photos[0].width,
+      height: place.photos[0].height
+    }
+
     // googleData: place
   };
   places.push(newPlace);

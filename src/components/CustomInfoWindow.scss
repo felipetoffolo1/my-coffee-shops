@@ -1,0 +1,20 @@
+.info-window {
+  padding-left: 20px;
+  max-width: 300px;
+  .place-photo {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+  }
+  .data-container {
+    width: 100%;
+  }
+  .contact {
+    // display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+  i {
+    margin-right: 5px;
+  }
+}

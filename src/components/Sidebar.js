@@ -17,7 +17,7 @@ let Sidebar = withScriptjs(props => {
             props.onPlacesChanged(places);
           }}
         >
-          <input type="text" placeholder="Customized your placeholder" />
+          <input type="text" placeholder="What is your favorite coffee shop?" />
         </StandaloneSearchBox>
         {props.places.map(place => (
           <li key={place.title}>
