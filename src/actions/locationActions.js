@@ -1,12 +1,12 @@
 import { REQUEST_LOCATION, SET_BOUNDS } from "../constants/actions";
-/** Called before a request for books is done */
+/**  Request a location info */
 export const requestLocation = location => {
-  // Return action
   return {
     type: REQUEST_LOCATION,
     location: location
   };
 };
+//Set map bounds
 export const setBounds = bounds => {
   // Return action
   return {

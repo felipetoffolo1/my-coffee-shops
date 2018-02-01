@@ -7,9 +7,6 @@ export default (
   action
 ) => {
   switch (action.type) {
-    /**
-     * Set the fetching to true
-     */
     case TOGGLE_INFOWINDOW:
       const newPlaces = state.places.map(place => {
         action.place.title === place.title

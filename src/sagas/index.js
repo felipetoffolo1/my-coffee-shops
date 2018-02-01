@@ -16,15 +16,24 @@ export const requestLocation = function*(action) {
   };
   yield put({ type: RECEIVE_LOCATION, location: location });
 };
+
+/**
+ * Set a new place on the state
+ * @param {*} action
+ */
 export const setPlace = function*(action) {
+  // get current places
   const state = yield select();
   const places = state.markers.places.slice();
+  // get info of place to add
   const place = action.places[0];
   const lat = place.geometry.location.lat();
   const lng = place.geometry.location.lng();
   const name = place.name;
+  // Async request for foursquare data
   const fsAvenues = yield call(getAvenue, `${lat},${lng}`, name);
   const fsAvenue = fsAvenues.response.groups[0].items[0];
+  // Merge google and foursquare data in our structure
   let newPlace = {
     id: place.id,
     title: place.name,
@@ -58,6 +67,8 @@ export const setPlace = function*(action) {
   yield call(putPlaces, places);
   yield put({ type: SET_PLACE, places: places });
 };
+
+// Get places saved on firebase
 export const getPlaces = function*(action) {
   const places = yield call(getSavedPlaces);
   yield put({

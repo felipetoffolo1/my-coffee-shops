@@ -2,6 +2,12 @@ import queryString from "query-string";
 import { foursquareId, foursquareSecret } from "../constants/keys";
 const foursquareUrl = "https://api.foursquare.com/v2/venues/explore";
 
+/**
+ * Get the avenue
+ * @param {object} location - lat and lng of the place
+ * @param {*} name  - name of the place to find
+ * returns {object} - Object with aoll possible avenues
+ */
 export const getAvenue = (location, name) =>
   fetch(
     foursquareUrl +

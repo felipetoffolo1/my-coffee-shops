@@ -1,5 +1,5 @@
 import { TOGGLE_MENU } from "../constants/actions";
-/** Called before a request for books is done */
+/** Toogle Menu */
 export const toggleMenu = bounds => {
   // Return action
   return {

@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import "./App.scss";
 import Sidebar from "./components/Sidebar";
-import Map from "./components/Map";
+import Map from "./containers/Map";
 import { connect } from "react-redux";
 import { toggleInfoWindow, addPlace, getPlaces } from "./actions/markerActions";
 import { requestLocation } from "./actions/locationActions";
 import { toggleMenu } from "./actions/appActions";
 
+/**
+ * Main App component
+ * render the navbar, sidebar and map
+ */
 class App extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +21,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // Load places after mount
     this.props.getPlaces();
   }
 
@@ -24,12 +29,13 @@ class App extends Component {
     var mapsData = {
       googleMapURL:
         "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCUDVUPaIm0AA6yj7kQnU-JW7lQ7mhKFuc",
-      loadingElement: "<div style=' height: 100% ' />",
-      containerElement: "<div style={ height: 100% } />"
+      loadingElement: <div style={{ height: "100%" }} />,
+      containerElement: <div style={{ height: "100%" }} />
     };
 
     return (
       <div className="app flex-dir-column">
+        {/* navbar */}
         <div
           className="nav-bar title-bar"
           data-responsive-toggle="places-menu"
@@ -47,6 +53,7 @@ class App extends Component {
               "cell medium-4 large-2 " + (!this.props.showMenu && "hide")
             }
           >
+            {/* sidebar */}
             <Sidebar
               {...mapsData}
               places={this.props.places}
@@ -58,6 +65,7 @@ class App extends Component {
           <div
             className={"cell " + (this.props.showMenu && "medium-8 large-10")}
           >
+            {/* map */}
             <Map {...mapsData} />
           </div>
         </div>

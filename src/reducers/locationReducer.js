@@ -5,9 +5,6 @@ export default (
   action
 ) => {
   switch (action.type) {
-    /**
-     * Set the fetching to true
-     */
     case RECEIVE_LOCATION:
       return Object.assign({}, state, { current: action.location });
     case SET_BOUNDS:

@@ -2,6 +2,11 @@ import React from "react";
 import "./CustomInfoWindow.scss";
 
 const PlaceContact = props => {
+  /** Make a object with the contact info
+   * @param {string} type - Type of contact ex: facebook
+   * @param {string} address - Contact adrdress
+   * @returns {object} contact info
+   */
   const getInfo = (type, address) => {
     let contact = {
       type: type,

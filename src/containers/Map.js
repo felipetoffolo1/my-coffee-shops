@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
-import CustomMarker from "./CustomMarker";
+import CustomMarker from "../components/CustomMarker";
 import { toggleInfoWindow } from "../actions/markerActions";
 import { connect } from "react-redux";
 import { setBounds } from "../actions/locationActions";
 
 var mapReference;
+/**
+ * Map component using HOCs
+ */
 const Map = withScriptjs(
   withGoogleMap(props => {
     return (
@@ -15,6 +18,7 @@ const Map = withScriptjs(
         ref={props.onMapMounted}
         onBoundsChanged={props.onBoundsChanged}
       >
+        {/* Add a marker for each place */}
         {props.places.map(place => (
           <CustomMarker
             key={place.id}
@@ -27,14 +31,19 @@ const Map = withScriptjs(
   })
 );
 
+/**
+ * Custom map using created maps
+ */
 class CustomMap extends Component {
   constructor(props) {
     super(props);
     this.onBoundsChanged = this.onBoundsChanged.bind(this);
   }
+  // Set map object reference
   onMapMounted(ref) {
     mapReference = ref;
   }
+  /** Set the bounds of the map on the state */
   onBoundsChanged() {
     const bounds = mapReference.getBounds();
     this.props.setBounds(bounds);
@@ -45,7 +54,7 @@ class CustomMap extends Component {
         {...this.props}
         onMapMounted={this.onMapMounted}
         onBoundsChanged={this.onBoundsChanged}
-        loadingElement={<div style={{ height: "100vh" }} />}
+        loadingElement={<div style={{ height: "100%" }} />}
         containerElement={
           <div className="flex-container" style={{ height: "100%" }} />
         }

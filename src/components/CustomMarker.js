@@ -1,7 +1,10 @@
 import React from "react";
-import { Marker, InfoWindow } from "react-google-maps";
+import { Marker } from "react-google-maps";
 import CustomInfoWindow from "./CustomInfoWindow";
-
+/**
+ * Custom marker for the project
+ * @param {*} props
+ */
 const CustomMarker = props => {
   return (
     <Marker

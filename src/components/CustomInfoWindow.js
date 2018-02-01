@@ -3,6 +3,10 @@ import { Marker, InfoWindow } from "react-google-maps";
 import "./CustomInfoWindow.scss";
 import PlaceContant from "./PlaceContant";
 
+/**
+ * Custom infor window for the project
+ * @param {*} props
+ */
 const CustomInfoWindow = props => {
   return (
     <InfoWindow>
