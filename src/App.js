@@ -23,6 +23,7 @@ class App extends Component {
   componentDidMount() {
     // Load places after mount
     this.props.getPlaces();
+    console.log(this.refs);
   }
 
   render() {

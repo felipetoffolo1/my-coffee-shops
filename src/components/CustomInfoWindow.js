@@ -1,5 +1,5 @@
 import React from "react";
-import { Marker, InfoWindow } from "react-google-maps";
+import { InfoWindow } from "react-google-maps";
 import "./CustomInfoWindow.scss";
 import PlaceContant from "./PlaceContant";
 
@@ -11,7 +11,11 @@ const CustomInfoWindow = props => {
   return (
     <InfoWindow>
       <div className="info-window">
-        <img className="place-photo" src={props.place.photo.url} />
+        <img
+          className="place-photo"
+          alt={props.place.title}
+          src={props.place.photo.url}
+        />
         <hr />
         <div className="flex-container data-container">
           <div className="flex-child-auto">

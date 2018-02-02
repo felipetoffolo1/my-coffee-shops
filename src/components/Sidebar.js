@@ -16,6 +16,7 @@ let Sidebar = withScriptjs(props => {
           onPlacesChanged={() => {
             const places = searchBox.getPlaces();
             props.onPlacesChanged(places);
+            console.log(this);
           }}
         >
           <input type="text" placeholder="What is your favorite coffee shop?" />
