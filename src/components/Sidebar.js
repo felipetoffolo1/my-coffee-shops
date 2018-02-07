@@ -16,13 +16,19 @@ let Sidebar = withScriptjs(props => {
           onPlacesChanged={() => {
             const places = searchBox.getPlaces();
             props.onPlacesChanged(places);
-            console.log(this);
           }}
         >
-          <input type="text" placeholder="What is your favorite coffee shop?" />
+          <input type="text" placeholder="Add a new place" />
         </StandaloneSearchBox>
+        <input
+          type="text"
+          placeholder="Filter places"
+          onChange={e => {
+            props.filterPlaces(e.target.value);
+          }}
+        />
         {/* Add each added place */}
-        {props.places.map(place => (
+        {props.filteredPlaces.map(place => (
           <li key={place.title}>
             <a onClick={() => props.onMarkerClick(place)}>{place.title}</a>
           </li>

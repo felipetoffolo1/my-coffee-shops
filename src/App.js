@@ -3,7 +3,12 @@ import "./App.scss";
 import Sidebar from "./components/Sidebar";
 import Map from "./containers/Map";
 import { connect } from "react-redux";
-import { toggleInfoWindow, addPlace, getPlaces } from "./actions/markerActions";
+import {
+  toggleInfoWindow,
+  addPlace,
+  getPlaces,
+  filterPlaces
+} from "./actions/markerActions";
 import { requestLocation } from "./actions/locationActions";
 import { toggleMenu } from "./actions/appActions";
 
@@ -23,7 +28,6 @@ class App extends Component {
   componentDidMount() {
     // Load places after mount
     this.props.getPlaces();
-    console.log(this.refs);
   }
 
   render() {
@@ -57,7 +61,8 @@ class App extends Component {
             {/* sidebar */}
             <Sidebar
               {...mapsData}
-              places={this.props.places}
+              filteredPlaces={this.props.filteredPlaces}
+              filterPlaces={this.props.filterPlaces}
               onMarkerClick={this.props.onMarkerClick}
               onPlacesChanged={this.props.onPlacesChanged}
               bounds={this.props.bounds}
@@ -80,7 +85,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     currentLocation: state.location.current,
     bounds: state.location.bounds,
-    places: state.markers.places,
+    filteredPlaces: state.markers.filteredPlaces,
     showMenu: state.app.showMenu
   };
 };
@@ -89,6 +94,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onMarkerClick: place => {
       dispatch(toggleInfoWindow(place));
+    },
+    filterPlaces: event => {
+      dispatch(filterPlaces(event));
     },
     onPlacesChanged: places => {
       dispatch(addPlace(places));

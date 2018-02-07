@@ -23,4 +23,10 @@ export const getAvenue = (location, name) =>
     {
       method: "GET"
     }
-  ).then(res => res.json());
+  )
+    .then(res => res.json())
+    .catch(err => {
+      err.text().then(errorMessage => {
+        console.log(errorMessage);
+      });
+    });

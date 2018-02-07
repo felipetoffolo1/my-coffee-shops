@@ -10,6 +10,7 @@ const CustomMarker = props => {
     <Marker
       onClick={() => props.onMarkerClick(props.place)}
       position={props.place.location}
+      animation={props.place.animation}
     >
       {props.place.showInfo && <CustomInfoWindow place={props.place} />}
     </Marker>

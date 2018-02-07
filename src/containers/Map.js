@@ -5,6 +5,7 @@ import { toggleInfoWindow } from "../actions/markerActions";
 import { connect } from "react-redux";
 import { setBounds } from "../actions/locationActions";
 
+// const google = window.google;
 var mapReference;
 /**
  * Map component using HOCs
@@ -19,7 +20,7 @@ const Map = withScriptjs(
         onBoundsChanged={props.onBoundsChanged}
       >
         {/* Add a marker for each place */}
-        {props.places.map(place => (
+        {props.filteredPlaces.map(place => (
           <CustomMarker
             key={place.id}
             place={place}
@@ -58,7 +59,9 @@ class CustomMap extends Component {
         containerElement={
           <div className="flex-container" style={{ height: "100%" }} />
         }
-        mapElement={<div className="flex-child-auto" />}
+        mapElement={
+          <div className="flex-child-auto" style={{ minHeight: "500px" }} />
+        }
       />
     );
   }
@@ -69,7 +72,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     currentLocation: state.location.current,
     bounds: state.location.bounds,
-    places: state.markers.places
+    filteredPlaces: state.markers.filteredPlaces
   };
 };
 

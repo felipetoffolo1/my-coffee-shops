@@ -1,4 +1,9 @@
-import { TOGGLE_INFOWINDOW, ADD_PLACE, GET_PLACES } from "../constants/actions";
+import {
+  TOGGLE_INFOWINDOW,
+  ADD_PLACE,
+  GET_PLACES,
+  FILTER_PLACES
+} from "../constants/actions";
 /** Called before a request for books is done */
 export const toggleInfoWindow = place => {
   // Toggle infowindow visibilty for a marker
@@ -18,5 +23,12 @@ export const addPlace = places => {
 export const getPlaces = () => {
   return {
     type: GET_PLACES
+  };
+};
+// Get saved places
+export const filterPlaces = value => {
+  return {
+    value: value,
+    type: FILTER_PLACES
   };
 };
