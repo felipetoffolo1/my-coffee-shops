@@ -29,6 +29,9 @@ class App extends Component {
     // Load places after mount
     this.props.getPlaces();
   }
+  componentDidCatch(error, info) {
+    alert(`Sorry we got error: ${error}`);
+  }
 
   render() {
     var mapsData = {
