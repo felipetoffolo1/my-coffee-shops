@@ -14,10 +14,16 @@ export const getSavedPlaces = () =>
   firebase
     .database()
     .ref("places/")
-    .once("value");
+    .once("value")
+    .catch(err => {
+      alert(err);
+    });
 
 export const putPlaces = places =>
   firebase
     .database()
     .ref("places/")
-    .set(places);
+    .set(places)
+    .catch(err => {
+      alert(err);
+    });

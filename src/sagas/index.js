@@ -22,64 +22,72 @@ export const requestLocation = function*(action) {
  * @param {*} action
  */
 export const setPlace = function*(action) {
-  // get current places
-  const state = yield select();
-  const places = state.markers.places.slice();
-  // get info of place to add
-  const place = action.places[0];
-  const lat = place.geometry.location.lat();
-  const lng = place.geometry.location.lng();
-  const name = place.name;
-  // Async request for foursquare data
-  const fsAvenues = yield call(getAvenue, `${lat},${lng}`, name);
-  const fsAvenue = fsAvenues.response.groups[0].items[0];
-  const placeExist = places.filter(
-    existedPlace => existedPlace.id === place.id
-  );
-  if (placeExist.length >= 0) {
-    // Merge google and foursquare data in our structure
-    let newPlace = {
-      id: place.id,
-      title: place.name,
-      address: place.formatted_address,
-      location: {
-        lat: lat,
-        lng: lng
-      },
-      rating: {
-        foursquare: {
-          value: fsAvenue.venue.rating ? fsAvenue.venue.rating : ""
+  try {
+    // get current places
+    const state = yield select();
+    const places = state.markers.places.slice();
+    // get info of place to add
+    const place = action.places[0];
+    const lat = place.geometry.location.lat();
+    const lng = place.geometry.location.lng();
+    const name = place.name;
+    // Async request for foursquare data
+    const fsAvenues = yield call(getAvenue, `${lat},${lng}`, name);
+    const fsAvenue = fsAvenues.response.groups[0].items[0];
+    const placeExist = places.filter(
+      existedPlace => existedPlace.id === place.id
+    );
+    if (placeExist.length >= 0) {
+      // Merge google and foursquare data in our structure
+      let newPlace = {
+        id: place.id,
+        title: place.name,
+        address: place.formatted_address,
+        location: {
+          lat: lat,
+          lng: lng
         },
-        google: {
-          value: place.rating
+        rating: {
+          foursquare: {
+            value: fsAvenue.venue.rating ? fsAvenue.venue.rating : ""
+          },
+          google: {
+            value: place.rating
+          }
+        },
+        website: place.website ? place.website : "",
+        price: fsAvenue.venue.price,
+        contact: fsAvenue.venue.contact,
+        showInfo: false,
+        photo: {
+          url: place.photos[0].getUrl({ maxWidth: 500, maxHeight: 500 }),
+          width: place.photos[0].width,
+          height: place.photos[0].height
         }
-      },
-      website: place.website ? place.website : "",
-      price: fsAvenue.venue.price,
-      contact: fsAvenue.venue.contact,
-      showInfo: false,
-      photo: {
-        url: place.photos[0].getUrl({ maxWidth: 500, maxHeight: 500 }),
-        width: place.photos[0].width,
-        height: place.photos[0].height
-      }
 
-      // googleData: place
-    };
-    places.push(newPlace);
+        // googleData: place
+      };
+      places.push(newPlace);
+    }
+
+    yield call(putPlaces, places);
+    yield put({ type: SET_PLACE, places: places });
+  } catch (err) {
+    alert(err);
   }
-
-  yield call(putPlaces, places);
-  yield put({ type: SET_PLACE, places: places });
 };
 
 // Get places saved on firebase
 export const getPlaces = function*(action) {
-  const places = yield call(getSavedPlaces);
-  yield put({
-    type: SET_PLACE,
-    places: places.val() && Array.isArray(places.val()) ? places.val() : []
-  });
+  try {
+    const places = yield call(getSavedPlaces);
+    yield put({
+      type: SET_PLACE,
+      places: places.val() && Array.isArray(places.val()) ? places.val() : []
+    });
+  } catch (err) {
+    alert(err);
+  }
 };
 
 export function* watchLocationRequests() {
